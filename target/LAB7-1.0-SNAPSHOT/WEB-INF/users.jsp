@@ -62,7 +62,7 @@
                                     <td>${user.active ? "Y" : "N"}</td>
                                     <td>
                                         <a href="">Edit</a>
-                                        <a href="">Delete</a>
+                                        <a href="user?action=delete&email=${user.email.replace("+", "&#43;")}" >Delete </a>
                                     </td>
                                 </tr>
                             </c:forEach>
