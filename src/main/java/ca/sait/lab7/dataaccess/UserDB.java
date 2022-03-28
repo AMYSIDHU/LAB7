@@ -10,8 +10,10 @@ public class UserDB {
         EntityManager em = DBUtil.getEmFactory().createEntityManager();
         
         try {
-            List<User> users = em.createNamedQuery("User.findAll", User.class).getResultList();
-            return users;
+            Query query = em.createNamedQuery("User.findAll");
+
+            return query.getResultList();
+
         } finally {
             em.close();
         } 
@@ -41,9 +43,11 @@ public class UserDB {
             trans.commit();
 
            return true;
+
         } catch (Exception ex) {
             trans.rollback();
           return false;
+
         } finally {
             em.close();
         }
@@ -59,10 +63,12 @@ public class UserDB {
             trans.commit();
            
           return true;
+
         } catch (Exception ex) {
             trans.rollback();
 
        return false;
+
         } finally {
             em.close();
         }
@@ -77,14 +83,23 @@ public class UserDB {
         try {
           
             trans.begin();
-            em.remove(em.merge(user));
+            Query query = em.createNamedQuery("User.softDelete", User.class);
+            
+            query.setParameter("email",user.getEmail());
+            
+            query.executeUpdate();
+
+           //em.remove(em.merge(user));
+           
             trans.commit();
 
             return true;
+
         } catch (Exception ex) {
             trans.rollback();
 
        return false;
+
         } finally {
             em.close();
         }
